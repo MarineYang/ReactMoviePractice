@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Image, useColorScheme } from "react-native";
-import { Asset } from "expo-asset";
-import Tabs from "./navigation/Tab"
+import { QueryClient, QueryClientProvider } from "react-query";
 import {
   NavigationContainer,
   DarkTheme,
@@ -14,6 +13,7 @@ import { ThemeProvider } from "styled-components/native";
 import { darkTheme, lightTheme } from "./styled";
 import Root from "./navigation/Root";
 const loadFonts = (fonts) => fonts.map((font) => Font.loadAsync(font));
+const queryClient = new QueryClient();
 
 export default function App() {
   const [ready, setReady] = useState(false);
@@ -33,17 +33,12 @@ export default function App() {
     );
   }
   return (
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <NavigationContainer>
-        <Root />
-      </NavigationContainer>
-    </ThemeProvider>);
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <NavigationContainer>
+          <Root />
+        </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
 }
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
